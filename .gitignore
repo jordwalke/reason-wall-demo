@@ -25,5 +25,4 @@ setup.log
 *.yarn-error.log
 node_modules
 
-*.lock
 yarn-error.log

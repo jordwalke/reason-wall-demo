@@ -1381,7 +1381,7 @@ let main = () => {
     Sdl.log("Init error: %s", e);
     exit(1);
   | Ok () =>
-    switch (Sdl.create_window(~w=fw, ~h=fh, "SDL OpenGL", Sdl.Window.opengl)) {
+    switch (Sdl.create_window(~w=fw, ~h=fh, "SDL OpenGL", Sdl.Window.(opengl + allow_highdpi))) {
     | Error(`Msg(e)) =>
       Sdl.log("Create window error: %s", e);
       exit(1);
@@ -1389,6 +1389,8 @@ let main = () => {
       /*Sdl.gl_set_attribute Sdl.Gl.context_profile_mask Sdl.Gl.context_profile_core;*/
       /*Sdl.gl_set_attribute Sdl.Gl.context_major_version 2;*/
       /*Sdl.gl_set_attribute Sdl.Gl.context_minor_version 1;*/
+      let (ow, oh) = Sdl.gl_get_drawable_size(w);
+      Sdl.log("window size: %d,%d\topengl drawable size: %d,%d", fw, fh, ow, oh);
       ignore(Sdl.gl_set_attribute(Sdl.Gl.stencil_size, 1));
       switch (Sdl.gl_create_context(w)) {
       | Error(`Msg(e)) =>

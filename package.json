@@ -3,7 +3,7 @@
   "name": "wall-example",
   "version": "0.0.1",
   "dependencies": {
-    "@opam/wall": "jordwalke/wall#jbuilder",
+    "@opam/wall": "let-def/wall#master",
     "@esy-ocaml/esy-installer": "^0.0.0",
     "@esy-ocaml/substs": "^0.0.1",
     "@opam/grenier": "*",
