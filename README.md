@@ -6,7 +6,7 @@ Reason example of using [wall](https://github.com/let-def/wall) vector drawing.
 
 
 ## Build:
-Clone, and then run these commands inside the repo.
+Clone, and then run these commands:
 ```
 npm install -g esy@next
 cd reason-wall-demo
