@@ -1,0 +1,6 @@
+(jbuild_version 1)
+
+(executable
+ ((name Example)
+  (public_name Example)
+  (libraries (wall.lib grenier.binpacking stb_truetype wall tsdl))))

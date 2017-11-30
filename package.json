@@ -1,0 +1,33 @@
+
+{
+  "name": "wall-example",
+  "version": "0.0.1",
+  "dependencies": {
+    "@opam/wall": "jordwalke/wall#jbuilder",
+    "@esy-ocaml/esy-installer": "^0.0.0",
+    "@esy-ocaml/substs": "^0.0.1",
+    "@opam/grenier": "*",
+    "@opam/ocamlfind": "",
+    "@opam/stb_image": "*",
+    "@opam/stb_truetype": "*",
+    "@opam/tgls": "*",
+    "@opam/tsdl": "*",
+    "@opam/reason": "^3.0.3"
+  },
+  "esy": {
+    "build": [
+      [ "jbuilder", "build"]
+    ],
+    "install": [
+      [ "esy-installer" ]
+    ],
+    "buildsInSource": "_build"
+  },
+  "peerDependencies": {
+    "ocaml": "~4.6.0"
+  },
+  "devDependencies": {
+    "@opam/merlin": "*",
+    "ocaml": "~4.6.0"
+  }
+}
