@@ -1,5 +1,7 @@
 # `reason-wall-demo`
 
+[![Travis](https://img.shields.io/travis/jordwalke/reason-wall-demo.svg)](https://travis-ci.org/jordwalke/reason-wall-demo)
+
 This project demonstrates using:
 
 - [`Reason`](https://reasonml.github.io).

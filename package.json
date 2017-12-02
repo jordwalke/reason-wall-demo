@@ -65,5 +65,8 @@
   "devDependencies": {
     "@opam/merlin": "*",
     "ocaml": "~4.6.0"
+  },
+  "scripts": {
+    "test": "./test.sh"
   }
 }
