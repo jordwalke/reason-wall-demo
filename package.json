@@ -22,7 +22,12 @@
     "install": [
       [ "esy-installer" ]
     ],
-    "buildsInSource": "_build"
+    "buildsInSource": "_build",
+    "release": {
+      "releasedBinaries": [
+        "Example"
+      ]
+    }
   },
   "peerDependencies": {
     "ocaml": "~4.6.0"
