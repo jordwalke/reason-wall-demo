@@ -3,4 +3,5 @@
 (executable
  ((name Example)
   (public_name Example)
+  (ocamlopt_flags (-g -thread)) 
   (libraries (grenier.binpacking stb_truetype wall tsdl))))

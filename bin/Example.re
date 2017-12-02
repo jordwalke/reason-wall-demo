@@ -1355,21 +1355,17 @@ let fw = int_of_float(f *. float(w));
 
 let fh = int_of_float(f *. float(h));
 
-let lw = float(w);
-
-let lh = float(h);
-
-let pw = lw *. f;
-
-let ph = lh *. f;
-
-let render = (context, t) => {
-  let vg = C.new_frame(context);
+let render = (context, sw, sh, t) => {
+  let lw = float(w);
+  let lh = float(h);
+  let pw = lw *. f *. sw;
+  let ph = lh *. f *. sh;
+  let vg = C.new_frame(context, Gg.V2.v(pw, ph));
   let (_, (x, y)) = Sdl.get_mouse_state();
   let x = float(x) /. f
   and y = float(y) /. f;
-  draw_demo(vg, Transform.scale(f, f), x, y, lw, lh, t);
-  C.flush_frame(context, Gg.V2.v(pw, ph));
+  draw_demo(vg, Transform.scale(sw *. f, sh *. f), x, y, lw, lh, t);
+  C.flush_frame(context);
 };
 
 open Tgles2;
@@ -1389,8 +1385,11 @@ let main = () => {
       /*Sdl.gl_set_attribute Sdl.Gl.context_profile_mask Sdl.Gl.context_profile_core;*/
       /*Sdl.gl_set_attribute Sdl.Gl.context_major_version 2;*/
       /*Sdl.gl_set_attribute Sdl.Gl.context_minor_version 1;*/
+      ignore(Sdl.gl_set_swap_interval(-1));
       let (ow, oh) = Sdl.gl_get_drawable_size(w);
       Sdl.log("window size: %d,%d\topengl drawable size: %d,%d", fw, fh, ow, oh);
+      let sw = float(ow) /. float(fw)
+      and sh = float(oh) /. float(fh);
       ignore(Sdl.gl_set_attribute(Sdl.Gl.stencil_size, 1));
       switch (Sdl.gl_create_context(w)) {
       | Error(`Msg(e)) =>
@@ -1398,7 +1397,6 @@ let main = () => {
         exit(1);
       | Ok(ctx) =>
         let context = C.create_gl(~antialias=false);
-        let t = ref(0.0);
         let quit = ref(false);
         let event = Sdl.Event.create();
         while (! quit^) {
@@ -1408,8 +1406,6 @@ let main = () => {
             | _ => ()
             };
           };
-          Unix.sleepf(0.020);
-          t := t^ +. 0.050;
           Gl.viewport(0, 0, fw, fh);
           Gl.clear_color(0.3, 0.3, 0.32, 1.0);
           Gl.(clear(color_buffer_bit lor depth_buffer_bit lor stencil_buffer_bit));
@@ -1417,7 +1413,7 @@ let main = () => {
           Gl.blend_func_separate(Gl.one, Gl.src_alpha, Gl.one, Gl.one_minus_src_alpha);
           Gl.enable(Gl.cull_face_enum);
           Gl.disable(Gl.depth_test);
-          render(context, t^);
+          render(context, sw, sh, Int32.to_float(Sdl.get_ticks()) /. 1000.0);
           Sdl.gl_swap_window(w);
         };
         Sdl.gl_delete_context(ctx);

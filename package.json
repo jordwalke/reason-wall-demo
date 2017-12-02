@@ -3,7 +3,7 @@
   "name": "wall-example",
   "version": "0.0.1",
   "dependencies": {
-    "@opam/wall": "let-def/wall#master",
+    "@opam/wall": "let-def/wall#232ace990624b991297de856117c8aaeeaa1a09e",
     "@esy-ocaml/esy-installer": "^0.0.0",
     "@esy-ocaml/substs": "^0.0.1",
     "@opam/grenier": "*",
@@ -12,11 +12,12 @@
     "@opam/stb_truetype": "*",
     "@opam/tgls": "*",
     "@opam/tsdl": "*",
-    "@opam/reason": "^3.0.3"
+    "@opam/reason": "^3.0.3",
+    "refmterr": "*"
   },
   "esy": {
     "build": [
-      [ "jbuilder", "build"]
+      [ "refmterr", "jbuilder", "build"]
     ],
     "install": [
       [ "esy-installer" ]

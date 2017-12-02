@@ -405,6 +405,19 @@
   peerDependencies:
     ocaml " >= 4.2.0"
 
+"@opam/re@*":
+  version "1.7.1"
+  uid d8d5d042b79fee3dab7e06e02d3f31a5
+  resolved "@opam/re@1.7.1-d8d5d042b79fee3dab7e06e02d3f31a5.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/base-bytes" "*"
+    "@opam/ocamlbuild" "*"
+    "@opam/ocamlfind" "*"
+  peerDependencies:
+    ocaml "*"
+
 "@opam/react@ >= 1.0.0", "@opam/react@*":
   version "1.2.1"
   uid "5cd848b0af9065d8edc82dc742f58e38"
@@ -418,7 +431,7 @@
   peerDependencies:
     ocaml " >= 4.1.0"
 
-"@opam/reason@^3.0.3":
+"@opam/reason@^3.0.0", "@opam/reason@^3.0.3":
   version "3.0.3"
   resolved "@opam/reason@3.0.3-301f5410ae14d97dfb9f15a1944750ae.tgz"
   dependencies:
@@ -536,9 +549,9 @@
   peerDependencies:
     ocaml " >= 4.2.3"
 
-"@opam/wall@let-def/wall#master":
+"@opam/wall@let-def/wall#232ace990624b991297de856117c8aaeeaa1a09e":
   version "0.0.1"
-  resolved "https://codeload.github.com/let-def/wall/tar.gz/05dd2a46e27d4a4fb2ead146ec1248a4a7799785"
+  resolved "https://codeload.github.com/let-def/wall/tar.gz/232ace990624b991297de856117c8aaeeaa1a09e"
   dependencies:
     "@esy-ocaml/esy-installer" "^0.0.0"
     "@esy-ocaml/substs" "^0.0.1"
@@ -586,6 +599,16 @@
 ocaml@~4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/ocaml/-/ocaml-4.6.0.tgz#d3a19c79935ccdfccbc68fce4f6894771e139a5c"
+
+refmterr@*:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/refmterr/-/refmterr-3.0.6.tgz#e910ae12e87796959a4635805c9668ce792bbb70"
+  dependencies:
+    "@opam/jbuilder" "*"
+    "@opam/re" "*"
+    "@opam/reason" "^3.0.0"
+  peerDependencies:
+    ocaml " >= 4.2.0  < 4.7.0"
 
 yarn-pkg-config@esy-ocaml/yarn-pkg-config#esy:
   version "0.29.5"
