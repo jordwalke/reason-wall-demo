@@ -1,6 +1,6 @@
 
 {
-  "name": "wall-example",
+  "name": "reason-wall-demo",
   "version": "0.0.1",
   "dependencies": {
     "@opam/wall": "let-def/wall#232ace990624b991297de856117c8aaeeaa1a09e",
@@ -25,7 +25,37 @@
     "buildsInSource": "_build",
     "release": {
       "releasedBinaries": [
-        "Example"
+        "ReasonWallDemo.exe"
+      ],
+      "NOTES": "Below, we just strip out binary builds for things that aren't needed at runtime.",
+      "NOTES": "Make your release as lean as you like!",
+      "deleteFromBinaryRelease": [
+        "*menhir-*",
+        "*lambda_term-*",
+        "*ocaml_migrate_parsetree-*",
+        "*zed-*",
+        "*wall-*",
+        "*ocamlfind-*",
+        "*refmterr-*",
+        "*lambda_term-*",
+        "*re-*",
+        "*utop-*",
+        "*camlp4-*",
+        "*esy_ocaml__slash__esy_installer-*",
+        "*topkg-*",
+        "*ocaml-4*",
+        "*reason-*",
+        "*camlp4-*",
+        "*camomile-*",
+        "*esy_ocaml__slash__substs-*",
+        "*conf_which-*",
+        "*conf_m4-*",
+        "*cppo-*",
+        "*jbuilder-*",
+        "*astring-*",
+        "*base_bytes-*",
+        "*ppx___tools___versioned-*",
+        "*grenier-*"
       ]
     }
   },

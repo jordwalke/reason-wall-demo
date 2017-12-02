@@ -1,38 +1,69 @@
 # `reason-wall-demo`
 
-Reason example of using [wall](https://github.com/let-def/wall) vector drawing.
+This project demonstrates using:
+
+- [`Reason`](https://reasonml.github.io).
+- [`esy`](https://github.com/esy/esy) (think "yarn for native")
+
+to create a GUI application rendered with
+[`wall`](https://github.com/let-def/wall) vector
+drawing library.
 
 ![Wall Demo](./Demo.gif)
 
 
 ## Build:
-Clone, and then run these commands:
-```
+
+Install the latest [`esy`](https://github.com/esy/esy)
+```sh
+npm uninstall -g esy
 npm install -g esy@next
-cd reason-wall-demo
+```
+
+Clone, and then run these commands from the project directory:
+```sh
 esy install
 esy build
 ```
 
-## Run The Built App
-```
-./_build/default/bin/Example.exe
-```
-
-## Release As Plain `npm`/`yarn` Package:
-
-This command will package your app into a plain `npm`/`yarn` package that
-doesn't require `esy`, and will include all prebuilt binaries, and dynamically
-loaded libraries.
+**Now Run The App:**
 
 ```
+./_build/default/bin/ReasonWallDemo.exe
+```
+
+## Release As `npm` Package:
+
+The following commands create a prebuilt `npm` package exposing only the
+`ReasonWallDemo.exe` binary.
+
+```sh
 esy release bin
-npm install -g _release/bin-darwin
+cd _release/bin-darwin && npm publish --tag darwin
 ```
+
+**Now Have Your Friend Try Out Your Released App:**
+
+```sh
+npm install -g reason-wall-demo@darwin
+ReasonWallDemo.exe
+```
+
+## About Releases:
+
+- `esy release` bundles your package and all its dependencies' dynamically
+  loaded libraries and makes them usable on another computer via `npm install -g`.
+- The `package.json`'s `esy.release.releasedBinaries`: Specifies which binary
+  names you wish to export.
+- The `package.json`'s `esy.release.deleteFromBinaryRelease`: Specifies which
+  artifacts to strip out from the release. Make releases as lean as you want.
+
+## Dependencies:
+- The `package.json` `dependencies` field allows you to specify opam
+  dependencies on any opam package by prefixing the package name with the
+  `@opam/` scope.
 
 ### Origins:
 
-`wall` is a port of NanoVG. `bin/Example.re` is a conversion of the example
-file from the `wall` repo. See `ORIGINS.md`.
-
-
+`wall` is a port of NanoVG. `bin/ReasonWallDemo.re.re` is a conversion of the
+example file from the `wall` repo. See `ORIGINS.md`.
