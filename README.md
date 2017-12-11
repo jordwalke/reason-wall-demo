@@ -16,7 +16,8 @@ drawing library.
 
 ## Build:
 
-Install the latest [`esy`](https://github.com/esy/esy)
+Make sure you have the latest [`esy`](https://github.com/esy/esy) installed (at
+least version `0.0.52`):
 ```sh
 npm uninstall -g esy
 npm install -g esy@next
@@ -69,3 +70,11 @@ ReasonWallDemo.exe
 
 `wall` is a port of NanoVG. `bin/ReasonWallDemo.re.re` is a conversion of the
 example file from the `wall` repo. See `ORIGINS.md`.
+
+### Troubleshooting:
+
+Make sure your `esy` version is at least `0.0.52`.
+
+```sh
+esy --version
+```
