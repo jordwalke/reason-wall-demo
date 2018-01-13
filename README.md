@@ -20,7 +20,7 @@ Make sure you have the latest [`esy`](https://github.com/esy/esy) installed (at
 least version `0.0.52`):
 ```sh
 npm uninstall -g esy
-npm install -g esy@next
+npm install -g esy@latest
 ```
 
 Clone, and then run these commands from the project directory:
