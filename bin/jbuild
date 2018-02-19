@@ -4,4 +4,4 @@
  ((name ReasonWallDemo)
   (public_name ReasonWallDemo.exe)
   (ocamlopt_flags (-g -thread)) 
-  (libraries (grenier.binpacking stb_truetype wall tsdl))))
+  (libraries (grenier.binpacking stb_truetype wall tgls.tgles2 tsdl))))

@@ -14,6 +14,7 @@ drawing library.
 ![Wall Demo](./Demo.gif)
 
 
+
 ## Build:
 
 Make sure you have the latest [`esy`](https://github.com/esy/esy) installed (at
@@ -65,6 +66,11 @@ ReasonWallDemo.exe
 - The `package.json` `dependencies` field allows you to specify opam
   dependencies on any opam package by prefixing the package name with the
   `@opam/` scope.
+
+## Requirements:
+Currently the `package.json` specifies a dependency on the MacOS branch of
+`wall`. You can change this to the master branch and it should build on Linux.
+Eventually `wall` will not require different branches per platform.
 
 ### Origins:
 

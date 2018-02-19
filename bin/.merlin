@@ -18,3 +18,4 @@ PKG threads.posix
 PKG tsdl
 PKG unix
 PKG wall
+S .
