@@ -4,6 +4,4 @@ os:
 node_js:
   - "8"
   - "6"
-install:
-  - npm remove -g esy@preview
-  - npm install -g esy@preview
+install: true
