@@ -69,13 +69,10 @@ let draw_eyes = (x, y, w, h, mx, my, t) => {
         ~inner=Color.v(0.0, 0.0, 0.0, 0.125),
         ~outer=Color.v(0.0, 0.0, 0.0, 0.0625),
       ),
-      I.fill_path @@
-      (
-        t => {
-          P.ellipse(t, ~cx=lx +. 3.0, ~cy=ly +. 16.0, ~rx=ex, ~ry=ey);
-          P.ellipse(t, ~cx=rx +. 3.0, ~cy=ry +. 16.0, ~rx=ex, ~ry=ey);
-        }
-      ),
+      I.fill_path(t => {
+        P.ellipse(t, ~cx=lx +. 3.0, ~cy=ly +. 16.0, ~rx=ex, ~ry=ey);
+        P.ellipse(t, ~cx=rx +. 3.0, ~cy=ry +. 16.0, ~rx=ex, ~ry=ey);
+      }),
     ),
     I.paint(
       Paint.linear_gradient(
@@ -86,40 +83,33 @@ let draw_eyes = (x, y, w, h, mx, my, t) => {
         ~inner=Color.v(0.86, 0.86, 0.86, 1.0),
         ~outer=Color.v(0.5, 0.5, 0.5, 1.0),
       ),
-      I.fill_path @@
-      (
-        t => {
-          P.ellipse(t, ~cx=lx, ~cy=ly, ~rx=ex, ~ry=ey);
-          P.ellipse(t, ~cx=rx, ~cy=ry, ~rx=ex, ~ry=ey);
-        }
+      I.fill_path(t => {
+        P.ellipse(t, ~cx=lx, ~cy=ly, ~rx=ex, ~ry=ey);
+        P.ellipse(t, ~cx=rx, ~cy=ry, ~rx=ex, ~ry=ey);
+      }),
+    ),
+    I.paint(
+      Paint.color(Color.v(0.125, 0.125, 0.125, 1.0)),
+      I.fill_path(t =>
+        P.ellipse(
+          t,
+          ~cx=lx +. dx,
+          ~cy=ly +. dy +. ey *. 0.25 *. (1.0 -. blink),
+          ~rx=br,
+          ~ry=br *. blink,
+        )
       ),
     ),
     I.paint(
       Paint.color(Color.v(0.125, 0.125, 0.125, 1.0)),
-      I.fill_path @@
-      (
-        t =>
-          P.ellipse(
-            t,
-            ~cx=lx +. dx,
-            ~cy=ly +. dy +. ey *. 0.25 *. (1.0 -. blink),
-            ~rx=br,
-            ~ry=br *. blink,
-          )
-      ),
-    ),
-    I.paint(
-      Paint.color(Color.v(0.125, 0.125, 0.125, 1.0)),
-      I.fill_path @@
-      (
-        t =>
-          P.ellipse(
-            t,
-            ~cx=rx +. dx,
-            ~cy=ry +. dy +. ey *. 0.25 *. (1.0 -. blink),
-            ~rx=br,
-            ~ry=br *. blink,
-          )
+      I.fill_path(t =>
+        P.ellipse(
+          t,
+          ~cx=rx +. dx,
+          ~cy=ry +. dy +. ey *. 0.25 *. (1.0 -. blink),
+          ~rx=br,
+          ~ry=br *. blink,
+        )
       ),
     ),
     /* Gloss */
@@ -132,7 +122,7 @@ let draw_eyes = (x, y, w, h, mx, my, t) => {
         ~inner=Color.v(1.0, 1.0, 1.0, 0.5),
         ~outer=Color.v(1.0, 1.0, 1.0, 0.0),
       ),
-      I.fill_path @@ (t => P.ellipse(t, ~cx=lx, ~cy=ly, ~rx=ex, ~ry=ey)),
+      I.fill_path(t => P.ellipse(t, ~cx=lx, ~cy=ly, ~rx=ex, ~ry=ey)),
     ),
     I.paint(
       Paint.radial_gradient(
@@ -143,7 +133,7 @@ let draw_eyes = (x, y, w, h, mx, my, t) => {
         ~inner=Color.v(1.0, 1.0, 1.0, 0.5),
         ~outer=Color.v(1.0, 1.0, 1.0, 0.0),
       ),
-      I.fill_path @@ (t => P.ellipse(t, ~cx=rx, ~cy=ry, ~rx=ex, ~ry=ey)),
+      I.fill_path(t => P.ellipse(t, ~cx=rx, ~cy=ry, ~rx=ex, ~ry=ey)),
     ),
   ]);
 };
@@ -171,31 +161,28 @@ let draw_graph = (x, y, w, h, t) => {
         ~inner=Color.v(0.00, 0.60, 0.75, 0.00),
         ~outer=Color.v(0.00, 0.60, 0.75, 0.25),
       ),
-      I.fill_path @@
-      (
-        t => {
-          P.move_to(t, ~x=sx(0), ~y=sy(0));
-          for (i in 1 to 5) {
-            P.bezier_to(
-              t,
-              ~c1x=sx(i - 1) +. dx *. 0.5,
-              ~c1y=sy(i - 1),
-              ~c2x=sx(i) -. dx *. 0.5,
-              ~c2y=sy(i),
-              ~x=sx(i),
-              ~y=sy(i),
-            );
-          };
-          P.line_to(t, ~x=x +. w, ~y=y +. h);
-          P.line_to(t, ~x, ~y=y +. h);
-        }
-      ),
+      I.fill_path(t => {
+        P.move_to(t, ~x=sx(0), ~y=sy(0));
+        for (i in 1 to 5) {
+          P.bezier_to(
+            t,
+            ~c1x=sx(i - 1) +. dx *. 0.5,
+            ~c1y=sy(i - 1),
+            ~c2x=sx(i) -. dx *. 0.5,
+            ~c2y=sy(i),
+            ~x=sx(i),
+            ~y=sy(i),
+          );
+        };
+        P.line_to(t, ~x=x +. w, ~y=y +. h);
+        P.line_to(t, ~x, ~y=y +. h);
+      }),
     ),
     /* Graph line */
     I.paint(
       Paint.color(Color.v(0.0, 0.0, 0.0, 0.125)),
-      I.stroke_path(Outline.{...default, stroke_width: 3.0}) @@
-      (
+      I.stroke_path(
+        Outline.{...default, stroke_width: 3.0},
         t => {
           P.move_to(t, sx(0), sy(0) +. 2.0);
           for (i in 1 to 5) {
@@ -209,13 +196,13 @@ let draw_graph = (x, y, w, h, t) => {
               ~y=sy(i) +. 2.0,
             );
           };
-        }
+        },
       ),
     ),
     I.paint(
       Paint.color(Color.v(0.0, 0.60, 0.75, 1.0)),
-      I.stroke_path(Outline.{...default, stroke_width: 3.0}) @@
-      (
+      I.stroke_path(
+        Outline.{...default, stroke_width: 3.0},
         t => {
           P.move_to(t, sx(0), sy(0));
           for (i in 1 to 5) {
@@ -229,7 +216,7 @@ let draw_graph = (x, y, w, h, t) => {
               ~y=sy(i),
             );
           };
-        }
+        },
       ),
     ),
     {
@@ -248,16 +235,14 @@ let draw_graph = (x, y, w, h, t) => {
                 ~inner=Color.v(0.0, 0.0, 0.0, 0.125),
                 ~outer=Color.v(0.0, 0.0, 0.0, 0.0),
               ),
-              I.fill_path @@
-              (
-                t =>
-                  P.rect(
-                    t,
-                    ~x=sx(i) -. 10.0,
-                    ~y=sy(i) -. 10.0 +. 2.0,
-                    ~w=20.0,
-                    ~h=20.0,
-                  )
+              I.fill_path(t =>
+                P.rect(
+                  t,
+                  ~x=sx(i) -. 10.0,
+                  ~y=sy(i) -. 10.0 +. 2.0,
+                  ~w=20.0,
+                  ~h=20.0,
+                )
               ),
             ),
           );
@@ -266,22 +251,18 @@ let draw_graph = (x, y, w, h, t) => {
     },
     I.paint(
       Paint.color(Color.v(0.0, 0.6, 0.75, 1.0)),
-      I.fill_path @@
-      (
-        t =>
-          for (i in 0 to 5) {
-            P.circle(t, ~cx=sx(i), ~cy=sy(i), ~r=4.0);
-          }
+      I.fill_path(t =>
+        for (i in 0 to 5) {
+          P.circle(t, ~cx=sx(i), ~cy=sy(i), ~r=4.0);
+        }
       ),
     ),
     I.paint(
       Paint.color(Color.v(0.8, 0.8, 0.8, 1.0)),
-      I.fill_path @@
-      (
-        t =>
-          for (i in 0 to 5) {
-            P.circle(t, ~cx=sx(i), ~cy=sy(i), ~r=2.0);
-          }
+      I.fill_path(t =>
+        for (i in 0 to 5) {
+          P.circle(t, ~cx=sx(i), ~cy=sy(i), ~r=2.0);
+        }
       ),
     ),
   ]);
@@ -305,14 +286,11 @@ let draw_spinner = (cx, cy, r, t) => {
       ~inner=Color.v(0.0, 0.0, 0.0, 0.0),
       ~outer=Color.v(0.0, 0.0, 0.0, 0.5),
     ),
-    I.fill_path @@
-    (
-      t => {
-        P.arc(t, ~cx, ~cy, ~r=r0, ~a0, ~a1, `CW);
-        P.arc(t, ~cx, ~cy, ~r=r1, ~a0=a1, ~a1=a0, `CCW);
-        P.close(t);
-      }
-    ),
+    I.fill_path(t => {
+      P.arc(t, ~cx, ~cy, ~r=r0, ~a0, ~a1, `CW);
+      P.arc(t, ~cx, ~cy, ~r=r1, ~a0=a1, ~a1=a0, `CCW);
+      P.close(t);
+    }),
   );
 };
 
@@ -344,14 +322,11 @@ let draw_colorwheel = (x, y, w, h, t) => {
             ~inner=Color.hsl(a0 /. (2.0 *. pi), 1.0, 0.55),
             ~outer=Color.hsl(a1 /. (2.0 *. pi), 1.0, 0.55),
           ),
-          I.fill_path @@
-          (
-            t => {
-              P.arc(t, ~cx, ~cy, ~r=r0, ~a0, ~a1, `CW);
-              P.arc(t, ~cx, ~cy, ~r=r1, ~a0=a1, ~a1=a0, `CCW);
-              P.close(t);
-            }
-          ),
+          I.fill_path(t => {
+            P.arc(t, ~cx, ~cy, ~r=r0, ~a0, ~a1, `CW);
+            P.arc(t, ~cx, ~cy, ~r=r1, ~a0=a1, ~a1=a0, `CCW);
+            P.close(t);
+          }),
         ),
       );
   };
@@ -359,12 +334,12 @@ let draw_colorwheel = (x, y, w, h, t) => {
     node^,
     I.paint(
       Paint.color(Color.v(0.0, 0.0, 0.0, 0.25)),
-      I.stroke_path(Outline.{...default, stroke_width: 1.0}) @@
-      (
+      I.stroke_path(
+        Outline.{...default, stroke_width: 1.0},
         t => {
           P.circle(t, ~cx, ~cy, ~r=r0 -. 0.5);
           P.circle(t, ~cx, ~cy, ~r=r1 +. 0.5);
-        }
+        },
       ),
     ),
     /* Selector */
@@ -373,8 +348,9 @@ let draw_colorwheel = (x, y, w, h, t) => {
       I.seq([
         I.paint(
           Paint.color(Color.gray(~a=0.75, 1.0)),
-          I.stroke_path(Outline.{...default, stroke_width: 2.0}) @@
-          (t => P.rect(t, r0 -. 1.0, -3.0, r1 -. r0 +. 2., 6.0)),
+          I.stroke_path(Outline.{...default, stroke_width: 2.0}, t =>
+            P.rect(t, r0 -. 1.0, -3.0, r1 -. r0 +. 2., 6.0)
+          ),
         ),
         I.paint(
           Paint.box_gradient(
@@ -387,20 +363,17 @@ let draw_colorwheel = (x, y, w, h, t) => {
             ~inner=Color.gray(~a=0.5, 0.0),
             ~outer=Color.gray(~a=0.0, 0.0),
           ),
-          I.fill_path @@
-          (
-            t => {
-              P.rect(
-                t,
-                ~x=r0 -. 2.0 -. 10.0,
-                ~y=(-4.0) -. 10.0,
-                ~w=r1 -. r0 +. 4.0 +. 20.0,
-                ~h=8.0 +. 20.0,
-              );
-              P.rect(t, ~x=r0 -. 2.0, ~y=-4.0, ~w=r1 -. r0 +. 4.0, ~h=8.0);
-              P.set_winding(t, `HOLE);
-            }
-          ),
+          I.fill_path(t => {
+            P.rect(
+              t,
+              ~x=r0 -. 2.0 -. 10.0,
+              ~y=(-4.0) -. 10.0,
+              ~w=r1 -. r0 +. 4.0 +. 20.0,
+              ~h=8.0 +. 20.0,
+            );
+            P.rect(t, ~x=r0 -. 2.0, ~y=-4.0, ~w=r1 -. r0 +. 4.0, ~h=8.0);
+            P.set_winding(t, `HOLE);
+          }),
         ),
         {
           /* Center triangle */
@@ -410,15 +383,12 @@ let draw_colorwheel = (x, y, w, h, t) => {
           let bx = cos((-120.0) /. 180.0 *. pi) *. r;
           let by = sin((-120.0) /. 180.0 *. pi) *. r;
           let path =
-            Path.make @@
-            (
-              t => {
-                P.move_to(t, r, 0.0);
-                P.line_to(t, ax, ay);
-                P.line_to(t, bx, by);
-                P.close(t);
-              }
-            );
+            Path.make(t => {
+              P.move_to(t, r, 0.0);
+              P.line_to(t, ax, ay);
+              P.line_to(t, bx, by);
+              P.close(t);
+            });
           /*Printf.printf "sx=%f, sy=%f, ex=%f, ey=%f\n%!" r 0.0 ax ay;*/
           let fill = I.fill(path);
           I.seq([
@@ -455,8 +425,9 @@ let draw_colorwheel = (x, y, w, h, t) => {
               I.impose(
                 I.paint(
                   Paint.color(Color.gray(~a=0.75, 1.0)),
-                  I.stroke_path(Outline.{...default, stroke_width: 2.0}) @@
-                  (t => P.circle(t, ~cx=ax, ~cy=ay, ~r=5.0)),
+                  I.stroke_path(Outline.{...default, stroke_width: 2.0}, t =>
+                    P.circle(t, ~cx=ax, ~cy=ay, ~r=5.0)
+                  ),
                 ),
                 I.paint(
                   Paint.radial_gradient(
@@ -467,20 +438,11 @@ let draw_colorwheel = (x, y, w, h, t) => {
                     ~inner=Color.gray(~a=0.25, 0.0),
                     ~outer=Color.gray(~a=0.0, 0.0),
                   ),
-                  I.fill_path @@
-                  (
-                    t => {
-                      P.rect(
-                        t,
-                        ~x=ax -. 20.0,
-                        ~y=ay -. 20.0,
-                        ~w=40.0,
-                        ~h=40.0,
-                      );
-                      P.circle(t, ~cx=ax, ~cy=ay, ~r=7.0);
-                      P.set_winding(t, `HOLE);
-                    }
-                  ),
+                  I.fill_path(t => {
+                    P.rect(t, ~x=ax -. 20.0, ~y=ay -. 20.0, ~w=40.0, ~h=40.0);
+                    P.circle(t, ~cx=ax, ~cy=ay, ~r=7.0);
+                    P.set_winding(t, `HOLE);
+                  }),
                 ),
               );
             },
@@ -529,14 +491,12 @@ let draw_lines = (x, y, w, _h, t) => {
                 line_cap: caps[i],
                 line_join: joins[j],
               },
-            ) @@
-            (
               t => {
                 P.move_to(t, px(0), py(0));
                 P.line_to(t, px(1), py(1));
                 P.line_to(t, px(2), py(2));
                 P.line_to(t, px(3), py(3));
-              }
+              },
             ),
           ),
           I.paint(
@@ -548,14 +508,12 @@ let draw_lines = (x, y, w, _h, t) => {
                 line_cap: `BUTT,
                 line_join: `BEVEL,
               },
-            ) @@
-            (
               t => {
                 P.move_to(t, px(0), py(0));
                 P.line_to(t, px(1), py(1));
                 P.line_to(t, px(2), py(2));
                 P.line_to(t, px(3), py(3));
-              }
+              },
             ),
           ),
         ]);
@@ -577,12 +535,10 @@ let draw_widths = (x, y, w) => {
           paint,
           I.stroke_path(
             Outline.{...default, stroke_width: (float(i) +. 0.5) /. 10.0},
-          ) @@
-          (
             t => {
               P.move_to(t, x, y');
               P.line_to(t, x +. w, y' +. w *. 0.3);
-            }
+            },
           ),
         ),
       );
@@ -596,24 +552,21 @@ let draw_caps = (x, y, w) => {
   let f = (cap, i) =>
     I.paint(
       Paint.black,
-      I.stroke_path(Outline.make(~width, ~cap, ())) @@
-      (
+      I.stroke_path(
+        Outline.make(~width, ~cap, ()),
         t => {
           P.move_to(t, x, y +. float(i * 10 + 5));
           P.line_to(t, x +. w, y +. float(i * 10 + 5));
-        }
+        },
       ),
     );
   I.seq([
     I.paint(
       Paint.color(Color.gray(~a=0.125, 1.0)),
-      I.fill_path @@
-      (
-        t => {
-          P.rect(t, x, y, w, 40.0);
-          P.rect(t, x -. width /. 2.0, y, w +. width, 40.0);
-        }
-      ),
+      I.fill_path(t => {
+        P.rect(t, x, y, w, 40.0);
+        P.rect(t, x -. width /. 2.0, y, w +. width, 40.0);
+      }),
     ),
     f(`BUTT, 0),
     f(`ROUND, 1),
@@ -623,14 +576,14 @@ let draw_caps = (x, y, w) => {
 
 let draw_scissor = (x, y, t) => {
   let xf = Transform.(rotate(5.0 /. 180.0 *. pi, translation(~x, ~y)));
-  let shape = I.fill_path @@ (t => P.rect(t, -20.0, -10.0, 60.0, 30.0));
+  let shape = I.fill_path(t => P.rect(t, -20.0, -10.0, 60.0, 30.0));
   I.transform(
     xf,
     I.impose(
       /* Draw first rect and set scissor to it's area. */
       I.paint(
         Paint.color(Color.v(1.0, 0.0, 0.0, 1.0)),
-        I.fill_path @@ (t => P.rect(t, -20.0, -20.0, 60.0, 40.0)),
+        I.fill_path(t => P.rect(t, -20.0, -20.0, 60.0, 40.0)),
       ),
       {
         /* Draw second rectangle with offset and rotation. */
@@ -666,9 +619,8 @@ let draw_window = (title, x, y, w, h) => {
     /* Window */
     I.paint(
       Paint.color(Color.v(0.110, 0.118, 0.133, 0.75)),
-      I.fill_path @@
-      (
-        t => P.round_rect'(t, x, y, w, h, cornerRadius, cornerRadius, 0.0, 0.0)
+      I.fill_path(t =>
+        P.round_rect'(t, x, y, w, h, cornerRadius, cornerRadius, 0.0, 0.0)
       ),
     ),
     /* Drop shadow */
@@ -683,14 +635,11 @@ let draw_window = (title, x, y, w, h) => {
         Color.gray(~a=0.5, 0.0),
         Color.gray(~a=0.0, 0.0),
       ),
-      I.fill_path @@
-      (
-        t => {
-          P.rect(t, x -. 10.0, y -. 10.0, w +. 20.0, h +. 30.0);
-          P.round_rect'(t, x, y, w, h, cornerRadius, cornerRadius, 0.0, 0.0);
-          P.set_winding(t, `HOLE);
-        }
-      ),
+      I.fill_path(t => {
+        P.rect(t, x -. 10.0, y -. 10.0, w +. 20.0, h +. 30.0);
+        P.round_rect'(t, x, y, w, h, cornerRadius, cornerRadius, 0.0, 0.0);
+        P.set_winding(t, `HOLE);
+      }),
     ),
     /* Header */
     I.paint(
@@ -702,30 +651,28 @@ let draw_window = (title, x, y, w, h) => {
         Color.gray(~a=0.04, 1.0),
         Color.gray(~a=0.08, 1.0),
       ),
-      I.fill_path @@
-      (
-        t =>
-          P.round_rect'(
-            t,
-            x +. 1.0,
-            y +. 1.0,
-            w -. 2.0,
-            30.0,
-            cornerRadius -. 1.0,
-            cornerRadius -. 1.0,
-            0.0,
-            0.0,
-          )
+      I.fill_path(t =>
+        P.round_rect'(
+          t,
+          x +. 1.0,
+          y +. 1.0,
+          w -. 2.0,
+          30.0,
+          cornerRadius -. 1.0,
+          cornerRadius -. 1.0,
+          0.0,
+          0.0,
+        )
       ),
     ),
     I.paint(
       Paint.color(Color.gray(~a=0.125, 0.0)),
-      I.stroke_path(Outline.default) @@
-      (
+      I.stroke_path(
+        Outline.default,
         t => {
           P.move_to(t, x +. 0.5, y +. 0.5 +. 30.0);
           P.line_to(t, x +. 0.5 +. w -. 1.0, y +. 0.5 +. 30.0);
-        }
+        },
       ),
     ),
     I.paint(
@@ -772,21 +719,19 @@ let draw_searchbox = (text, x, y, w, h) => {
         Color.gray(~a=0.08, 0.0),
         Color.gray(~a=0.375, 0.0),
       ),
-      I.fill_path @@ (t => P.round_rect(t, x, y, w, h, cornerRadius)),
+      I.fill_path(t => P.round_rect(t, x, y, w, h, cornerRadius)),
     ),
     I.paint(
       Paint.color(Color.gray(~a=0.2, 0.0)),
-      I.stroke_path(Outline.default) @@
-      (
-        t =>
-          P.round_rect(
-            t,
-            x +. 0.5,
-            y +. 0.5,
-            w -. 1.0,
-            h -. 1.0,
-            cornerRadius -. 0.5,
-          )
+      I.stroke_path(Outline.default, t =>
+        P.round_rect(
+          t,
+          x +. 0.5,
+          y +. 0.5,
+          w -. 1.0,
+          h -. 1.0,
+          cornerRadius -. 0.5,
+        )
       ),
     ),
     I.paint(
@@ -843,32 +788,28 @@ let draw_dropdown = (text, x, y, w, h) => {
         Color.gray(~a=0.08, 1.0),
         Color.gray(~a=0.08, 0.0),
       ),
-      I.fill_path @@
-      (
-        t =>
-          P.round_rect(
-            t,
-            x +. 1.0,
-            y +. 1.0,
-            w -. 2.0,
-            h -. 2.0,
-            cornerRadius -. 1.0,
-          )
+      I.fill_path(t =>
+        P.round_rect(
+          t,
+          x +. 1.0,
+          y +. 1.0,
+          w -. 2.0,
+          h -. 2.0,
+          cornerRadius -. 1.0,
+        )
       ),
     ),
     I.paint(
       Paint.color(Color.gray(~a=0.1875, 0.0)),
-      I.stroke_path(Outline.default) @@
-      (
-        t =>
-          P.round_rect(
-            t,
-            x +. 0.5,
-            y +. 0.5,
-            w -. 1.0,
-            h -. 1.0,
-            cornerRadius -. 0.5,
-          )
+      I.stroke_path(Outline.default, t =>
+        P.round_rect(
+          t,
+          x +. 0.5,
+          y +. 0.5,
+          w -. 1.0,
+          h -. 1.0,
+          cornerRadius -. 0.5,
+        )
       ),
     ),
     I.paint(
@@ -928,18 +869,14 @@ let draw_editboxbase = (x, y, w, h) =>
         Color.gray(~a=0.125, 1.0),
         Color.gray(~a=0.125, 0.125),
       ),
-      I.fill_path @@
-      (
-        t =>
-          P.round_rect(t, x +. 1.0, y +. 1.0, w -. 2.0, h -. 2.0, 4.0 -. 1.0)
+      I.fill_path(t =>
+        P.round_rect(t, x +. 1.0, y +. 1.0, w -. 2.0, h -. 2.0, 4.0 -. 1.0)
       ),
     ),
     I.paint(
       Paint.color(Color.gray(~a=0.1875, 0.0)),
-      I.stroke_path(Outline.default) @@
-      (
-        t =>
-          P.round_rect(t, x +. 0.5, y +. 0.5, w -. 1.0, h -. 1.0, 4.0 -. 0.5)
+      I.stroke_path(Outline.default, t =>
+        P.round_rect(t, x +. 0.5, y +. 0.5, w -. 1.0, h -. 1.0, 4.0 -. 0.5)
       ),
     ),
   );
@@ -1021,17 +958,15 @@ let draw_checkbox = (text, x, y, w, h) =>
         Color.gray(~a=0.125, 0.0),
         Color.gray(~a=0.375, 0.0),
       ),
-      I.fill_path @@
-      (
-        t =>
-          P.round_rect(
-            t,
-            x +. 1.0,
-            y +. floor(h /. 2.0) -. 9.0,
-            18.0,
-            18.0,
-            3.0,
-          )
+      I.fill_path(t =>
+        P.round_rect(
+          t,
+          x +. 1.0,
+          y +. floor(h /. 2.0) -. 9.0,
+          18.0,
+          18.0,
+          3.0,
+        )
       ),
     ),
     I.paint(
@@ -1104,17 +1039,15 @@ let draw_button = (preicon, text, x, y, w, h, col) => {
   let is_black = Color.a(col) > 0.0;
   let cornerRadius = 4.0;
   let shape =
-    I.fill_path @@
-    (
-      t =>
-        P.round_rect(
-          t,
-          x +. 1.0,
-          y +. 1.0,
-          w -. 2.0,
-          h -. 2.0,
-          cornerRadius -. 1.0,
-        )
+    I.fill_path(t =>
+      P.round_rect(
+        t,
+        x +. 1.0,
+        y +. 1.0,
+        w -. 2.0,
+        h -. 2.0,
+        cornerRadius -. 1.0,
+      )
     );
   I.seq([
     if (is_black) {
@@ -1135,17 +1068,15 @@ let draw_button = (preicon, text, x, y, w, h, col) => {
     ),
     I.paint(
       Paint.color(Color.gray(~a=0.375, 0.0)),
-      I.stroke_path(Outline.default) @@
-      (
-        t =>
-          P.round_rect(
-            t,
-            x +. 0.5,
-            y +. 0.5,
-            w -. 1.0,
-            h -. 1.0,
-            cornerRadius -. 0.5,
-          )
+      I.stroke_path(Outline.default, t =>
+        P.round_rect(
+          t,
+          x +. 0.5,
+          y +. 0.5,
+          w -. 1.0,
+          h -. 1.0,
+          cornerRadius -. 0.5,
+        )
       ),
     ),
     {
@@ -1224,7 +1155,7 @@ let draw_slider = (pos, x, y, w, h) => {
         Color.gray(~a=0.125, 0.0),
         Color.gray(~a=0.5, 0.0),
       ),
-      I.fill_path @@ (t => P.round_rect(t, x, cy -. 2., w, 4.0, 2.0)),
+      I.fill_path(t => P.round_rect(t, x, cy -. 2., w, 4.0, 2.0)),
     ),
     /* Knob Shadow */
     I.paint(
@@ -1236,26 +1167,22 @@ let draw_slider = (pos, x, y, w, h) => {
         Color.gray(~a=0.25, 0.0),
         Color.gray(~a=0.0, 0.0),
       ),
-      I.fill_path @@
-      (
-        t => {
-          P.rect(
-            t,
-            x +. floor(pos *. w) -. kr -. 5.0,
-            cy -. kr -. 5.0,
-            kr *. 2.0 +. 5.0 +. 5.0,
-            kr *. 2.0 +. 5.0 +. 5.0 +. 3.0,
-          );
-          P.circle(t, x +. floor(pos *. w), cy, kr);
-          P.set_winding(t, `HOLE);
-        }
-      ),
+      I.fill_path(t => {
+        P.rect(
+          t,
+          x +. floor(pos *. w) -. kr -. 5.0,
+          cy -. kr -. 5.0,
+          kr *. 2.0 +. 5.0 +. 5.0,
+          kr *. 2.0 +. 5.0 +. 5.0 +. 3.0,
+        );
+        P.circle(t, x +. floor(pos *. w), cy, kr);
+        P.set_winding(t, `HOLE);
+      }),
     ),
     {
       /* Knob */
       let shape =
-        I.fill_path @@
-        (t => P.circle(t, x +. floor(pos *. w), cy, kr -. 1.0));
+        I.fill_path(t => P.circle(t, x +. floor(pos *. w), cy, kr -. 1.0));
       I.seq([
         I.paint(Paint.color(Color.v_srgbi(40, 43, 48)), shape),
         I.paint(
@@ -1271,8 +1198,9 @@ let draw_slider = (pos, x, y, w, h) => {
         ),
         I.paint(
           Paint.color(Color.gray(~a=0.375, 0.0)),
-          I.stroke_path(Outline.default) @@
-          (t => P.circle(t, x +. floor(pos *. w), cy, kr -. 0.5)),
+          I.stroke_path(Outline.default, t =>
+            P.circle(t, x +. floor(pos *. w), cy, kr -. 0.5)
+          ),
         ),
       ]);
     },
@@ -1317,27 +1245,21 @@ let draw_thumbnails = (x, y, w, h, images, t) => {
         Color.gray(~a=0.5, 0.0),
         Color.gray(~a=0.0, 0.0),
       ),
-      I.fill_path @@
-      (
-        t => {
-          P.rect(t, x -. 10.0, y -. 10.0, w +. 20.0, h +. 30.0);
-          P.round_rect(t, x, y, w, h, cornerRadius);
-          P.set_winding(t, `HOLE);
-        }
-      ),
+      I.fill_path(t => {
+        P.rect(t, x -. 10.0, y -. 10.0, w +. 20.0, h +. 30.0);
+        P.round_rect(t, x, y, w, h, cornerRadius);
+        P.set_winding(t, `HOLE);
+      }),
     ),
     /* Window */
     I.paint(
       Paint.color(Color.gray(0.8)),
-      I.fill_path @@
-      (
-        t => {
-          P.round_rect(t, x, y, w, h, cornerRadius);
-          P.move_to(t, x -. 10.0, y +. arry);
-          P.line_to(t, x +. 1.0, y +. arry -. 11.0);
-          P.line_to(t, x +. 1.0, y +. arry +. 11.0);
-        }
-      ),
+      I.fill_path(t => {
+        P.round_rect(t, x, y, w, h, cornerRadius);
+        P.move_to(t, x -. 10.0, y +. arry);
+        P.line_to(t, x +. 1.0, y +. arry -. 11.0);
+        P.line_to(t, x +. 1.0, y +. arry +. 11.0);
+      }),
     ),
     {
       let xf' = Transform.translation(0.0, -. (stackh -. h) *. u);
@@ -1384,8 +1306,7 @@ let draw_thumbnails = (x, y, w, h, images, t) => {
                   a,
                   image_texture(image),
                 ),
-                I.fill_path @@
-                (t => P.round_rect(t, tx, ty, thumb, thumb, 5.0)),
+                I.fill_path(t => P.round_rect(t, tx, ty, thumb, thumb, 5.0)),
               ),
               I.paint(
                 Paint.box_gradient(
@@ -1398,34 +1319,29 @@ let draw_thumbnails = (x, y, w, h, images, t) => {
                   Color.gray(~a=0.5, 0.0),
                   Color.gray(~a=0.0, 0.0),
                 ),
-                I.fill_path @@
-                (
-                  t => {
-                    P.rect(
-                      t,
-                      tx -. 5.0,
-                      ty -. 5.0,
-                      thumb +. 10.0,
-                      thumb +. 10.0,
-                    );
-                    P.round_rect(t, tx, ty, thumb, thumb, 6.0);
-                    P.set_winding(t, `HOLE);
-                  }
-                ),
+                I.fill_path(t => {
+                  P.rect(
+                    t,
+                    tx -. 5.0,
+                    ty -. 5.0,
+                    thumb +. 10.0,
+                    thumb +. 10.0,
+                  );
+                  P.round_rect(t, tx, ty, thumb, thumb, 6.0);
+                  P.set_winding(t, `HOLE);
+                }),
               ),
               I.paint(
                 Paint.color(Color.gray(~a=0.75, 1.0)),
-                I.stroke_path(Outline.{...default, stroke_width: 1.0}) @@
-                (
-                  t =>
-                    P.round_rect(
-                      t,
-                      tx +. 0.5,
-                      ty +. 0.5,
-                      thumb -. 1.0,
-                      thumb -. 1.0,
-                      4.0 -. 0.5,
-                    )
+                I.stroke_path(Outline.{...default, stroke_width: 1.0}, t =>
+                  P.round_rect(
+                    t,
+                    tx +. 0.5,
+                    ty +. 0.5,
+                    thumb -. 1.0,
+                    thumb -. 1.0,
+                    4.0 -. 0.5,
+                  )
                 ),
               ),
             ]);
@@ -1444,7 +1360,7 @@ let draw_thumbnails = (x, y, w, h, images, t) => {
         Color.gray(~a=1.0, 0.8),
         Color.gray(~a=0.0, 0.8),
       ),
-      I.fill_path @@ (t => P.rect(t, x +. 4.0, y, w -. 8.0, 6.0)),
+      I.fill_path(t => P.rect(t, x +. 4.0, y, w -. 8.0, 6.0)),
     ),
     I.paint(
       Paint.linear_gradient(
@@ -1455,7 +1371,7 @@ let draw_thumbnails = (x, y, w, h, images, t) => {
         Color.gray(~a=1.0, 0.8),
         Color.gray(~a=0.0, 0.8),
       ),
-      I.fill_path @@ (t => P.rect(t, x +. 4.0, y +. h -. 6.0, w -. 8.0, 6.0)),
+      I.fill_path(t => P.rect(t, x +. 4.0, y +. h -. 6.0, w -. 8.0, 6.0)),
     ),
     /* Scroll bar */
     I.paint(
@@ -1469,8 +1385,9 @@ let draw_thumbnails = (x, y, w, h, images, t) => {
         Color.gray(~a=0.125, 0.0),
         Color.gray(~a=0.375, 0.0),
       ),
-      I.fill_path @@
-      (t => P.round_rect(t, x +. w -. 12.0, y +. 4.0, 8.0, h -. 8.0, 3.0)),
+      I.fill_path(t =>
+        P.round_rect(t, x +. w -. 12.0, y +. 4.0, 8.0, h -. 8.0, 3.0)
+      ),
     ),
     {
       let scrollh = h /. stackh *. (h -. 8.0);
@@ -1485,17 +1402,15 @@ let draw_thumbnails = (x, y, w, h, images, t) => {
           Color.gray(~a=0.9, 1.0),
           Color.gray(~a=0.5, 1.0),
         ),
-        I.fill_path @@
-        (
-          t =>
-            P.round_rect(
-              t,
-              x +. w -. 12. +. 1.,
-              y +. 4. +. 1. +. (h -. 8. -. scrollh) *. u,
-              8. -. 2.,
-              scrollh -. 2.,
-              2.,
-            )
+        I.fill_path(t =>
+          P.round_rect(
+            t,
+            x +. w -. 12. +. 1.,
+            y +. 4. +. 1. +. (h -. 8. -. scrollh) *. u,
+            8. -. 2.,
+            scrollh -. 2.,
+            2.,
+          )
         ),
       );
     },
@@ -1507,69 +1422,80 @@ let images = lazy (load_demo_data());
 let draw_demo = (mx, my, w, h, t) => {
   let node = ref(I.empty);
   let push = n => node := I.impose(node^, n);
-  push @@ draw_eyes(w -. 250.0, 50.0, 150.0, 100.0, mx, my, t);
-  push @@ draw_graph(0.0, h /. 2.0, w, h /. 2.0, t);
-  push @@ draw_colorwheel(w -. 300.0, h -. 300.0, 250.0, 250.0, t);
-  push @@ draw_lines(120.0, h -. 50.0, 600.0, 50.0, t);
-  push @@ draw_widths(10.0, 50.0, 30.0);
-  push @@ draw_caps(10.0, 300.0, 30.0);
-  push @@ draw_scissor(50.0, h -. 80.0, t);
+  push(draw_eyes(w -. 250.0, 50.0, 150.0, 100.0, mx, my, t));
+  push(draw_graph(0.0, h /. 2.0, w, h /. 2.0, t));
+  push(draw_colorwheel(w -. 300.0, h -. 300.0, 250.0, 250.0, t));
+  push(draw_lines(120.0, h -. 50.0, 600.0, 50.0, t));
+  push(draw_widths(10.0, 50.0, 30.0));
+  push(draw_caps(10.0, 300.0, 30.0));
+  push(draw_scissor(50.0, h -. 80.0, t));
   /* Widgets */
-  push @@ draw_window("Widgets `n Stuff", 50.0, 50.0, 300.0, 400.0);
+  push(draw_window("Widgets `n Stuff", 50.0, 50.0, 300.0, 400.0));
   let x = 60.0
   and y = 95.0;
-  push @@ draw_searchbox("Search", x, y, 280.0, 25.0);
+  push(draw_searchbox("Search", x, y, 280.0, 25.0));
   let y = y +. 40.0;
-  push @@ draw_dropdown("Effects", x, y, 280.0, 28.0);
+  push(draw_dropdown("Effects", x, y, 280.0, 28.0));
   let popy = y +. 14.0;
   let y = y +. 45.0;
   /* Form */
-  push @@ draw_label("login", x, y, 280.0, 20.0);
+  push(draw_label("login", x, y, 280.0, 20.0));
   let y = y +. 25.0;
-  push @@ draw_editbox("Email", x, y, 280.0, 28.0);
+  push(draw_editbox("Email", x, y, 280.0, 28.0));
   let y = y +. 35.0;
-  push @@ draw_editbox("Password", x, y, 280.0, 28.0);
+  push(draw_editbox("Password", x, y, 280.0, 28.0));
   let y = y +. 38.0;
-  push @@ draw_checkbox("Remember me", x, y, 140.0, 28.0);
-  push @@
-  draw_button(
-    /*ICON_LOGIN*/ 0xE740,
-    "Sign in",
-    x +. 138.0,
-    y,
-    140.0,
-    28.0,
-    Color.v(0.0, 0.375, 0.5, 1.0),
+  push(draw_checkbox("Remember me", x, y, 140.0, 28.0));
+  push(
+    draw_button(
+      /*ICON_LOGIN*/ 0xE740,
+      "Sign in",
+      x +. 138.0,
+      y,
+      140.0,
+      28.0,
+      Color.v(0.0, 0.375, 0.5, 1.0),
+    ),
   );
   let y = y +. 45.0;
   /* Slider */
-  push @@ draw_label("Diameter", x, y, 280.0, 20.0);
+  push(draw_label("Diameter", x, y, 280.0, 20.0));
   let y = y +. 25.0;
-  push @@ draw_editboxnum("123.00", "px", x +. 180.0, y, 100.0, 28.0);
-  push @@ draw_slider(0.4, x, y, 170.0, 28.0);
+  push(draw_editboxnum("123.00", "px", x +. 180.0, y, 100.0, 28.0));
+  push(draw_slider(0.4, x, y, 170.0, 28.0));
   let y = y +. 55.0;
-  push @@
-  draw_button(
-    /*ICON_TRASH*/ 0xE729,
-    "Delete",
-    x,
-    y,
-    160.0,
-    28.0,
-    Color.v(0.5, 0.0625, 0.03125, 1.0),
+  push(
+    draw_button(
+      /*ICON_TRASH*/ 0xE729,
+      "Delete",
+      x,
+      y,
+      160.0,
+      28.0,
+      Color.v(0.5, 0.0625, 0.03125, 1.0),
+    ),
   );
-  push @@
-  draw_button(
-    0,
-    "Cancel",
-    x +. 170.0,
-    y,
-    110.0,
-    28.0,
-    Color.gray(~a=0.0, 0.0),
+  push(
+    draw_button(
+      0,
+      "Cancel",
+      x +. 170.0,
+      y,
+      110.0,
+      28.0,
+      Color.gray(~a=0.0, 0.0),
+    ),
   );
-  push @@
-  draw_thumbnails(365.0, popy -. 30.0, 160.0, 300.0, Lazy.force(images), t);
+  push(
+    draw_thumbnails(
+      365.0,
+      popy -. 30.0,
+      160.0,
+      300.0,
+      Lazy.force(images),
+      t,
+    ),
+  );
   node^;
 };
 

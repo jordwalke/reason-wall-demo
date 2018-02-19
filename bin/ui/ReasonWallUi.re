@@ -261,20 +261,9 @@ module Blender = {
     };
   let clampf = (x, a, b) => maxf(minf(x, b), a);
   /* states altering the styling of a widget */
-  type widget_state = [
-    | `DEFAULT /* the widget is activated (pressed) or in an active state (toggled) */ /* the mouse is hovering over the control */ /* not interacting */
-    | `HOVER /* the widget is activated (pressed) or in an active state (toggled) */ /* the mouse is hovering over the control */ /* not interacting */
-    | `ACTIVE /* the widget is activated (pressed) or in an active state (toggled) */ /* the mouse is hovering over the control */ /* not interacting */
-  ];
+  type widget_state = [ | `DEFAULT | `HOVER | `ACTIVE];
   type corner_flags =
-    list(
-      [
-        | `TOP_LEFT /* sharp bottom left corner */ /* sharp bottom right corner */ /* sharp top right corner */ /* sharp top left corner */
-        | `TOP_RIGHT /* sharp bottom left corner */ /* sharp bottom right corner */ /* sharp top right corner */ /* sharp top left corner */
-        | `DOWN_RIGHT /* sharp bottom left corner */ /* sharp bottom right corner */ /* sharp top right corner */ /* sharp top left corner */
-        | `DOWN_LEFT /* sharp bottom left corner */ /* sharp bottom right corner */ /* sharp top right corner */ /* sharp top left corner */
-      ],
-    );
+    list([ | `TOP_LEFT | `TOP_RIGHT | `DOWN_RIGHT | `DOWN_LEFT]);
   let select_corners = (corners: corner_flags, r) => {
     let test = x =>
       if (List.mem(x, corners)) {
@@ -309,13 +298,13 @@ module Blender = {
     let cr2 = minf(cr2, d /. 2.0);
     let cr3 = minf(cr3, d /. 2.0);
     let shape =
-      Image.stroke_path(Outline.make(~width=1.0, ())) @@
-      (
+      Image.stroke_path(
+        Outline.make(~width=1.0, ()),
         t => {
           Path.move_to(t, x2, y2 -. cr2);
           Path.arc_to(t, x2, y2, x1, y2, cr2);
           Path.arc_to(t, x1, y2, x1, y1, cr3);
-        }
+        },
       );
     let bevel_color =
       offset_color(Theme.background, Default.inset_bevel_shade);
@@ -339,26 +328,26 @@ module Blender = {
     Image.seq([
       {
         let shape =
-          Image.stroke_path(Outline.default) @@
-          (
+          Image.stroke_path(
+            Outline.default,
             t => {
               Path.move_to(t, ~x=x1, ~y=y2);
               Path.line_to(t, ~x=x2, ~y=y2);
               Path.line_to(t, ~x=x1, ~y=y2);
-            }
+            },
           );
         let color = offset_color(Theme.background, -. Default.bevel_shade);
         Image.paint(Paint.color(transparent(color)), shape);
       },
       {
         let shape =
-          Image.stroke_path(Outline.default) @@
-          (
+          Image.stroke_path(
+            Outline.default,
             t => {
               Path.move_to(t, ~x=x1, ~y=y2);
               Path.line_to(t, ~x=x1, ~y=y1);
               Path.line_to(t, ~x=x2, ~y=y1);
-            }
+            },
           );
         let color = offset_color(Theme.background, Default.bevel_shade);
         Image.paint(Paint.color(transparent(color)), shape);
@@ -398,17 +387,14 @@ module Blender = {
       and y1 = B2.miny(box);
       let x2 = B2.maxx(box)
       and y2 = B2.maxy(box);
-      Path.make @@
-      (
-        t => {
-          Path.move_to(t, x1, B2.midy(box));
-          Path.arc_to(t, x1, y1, x2, y1, minf(cr0, d /. 2.0));
-          Path.arc_to(t, x2, y1, x2, y2, minf(cr1, d /. 2.0));
-          Path.arc_to(t, x2, y2, x1, y2, minf(cr2, d /. 2.0));
-          Path.arc_to(t, x1, y2, x1, y1, minf(cr3, d /. 2.0));
-          Path.close(t);
-        }
-      );
+      Path.make(t => {
+        Path.move_to(t, x1, B2.midy(box));
+        Path.arc_to(t, x1, y1, x2, y1, minf(cr0, d /. 2.0));
+        Path.arc_to(t, x2, y1, x2, y2, minf(cr1, d /. 2.0));
+        Path.arc_to(t, x2, y2, x1, y2, minf(cr2, d /. 2.0));
+        Path.arc_to(t, x1, y2, x1, y1, minf(cr3, d /. 2.0));
+        Path.close(t);
+      });
     } else {
       Path.make(ignore);
     };
@@ -431,14 +417,15 @@ module Blender = {
       } else {
         Paint.linear_gradient(~sx=x1, ~sy=y1, ~ex=x1, ~ey=y2, ~inner, ~outer);
       },
-      Image.fill @@
-      rounded_box(
-        offset_box(box, 1.0, 1.0, -2.0, -3.0),
-        ~corners=(
-          max(0.0, cr0 -. 1.0),
-          max(0.0, cr1 -. 1.0),
-          max(0.0, cr2 -. 1.0),
-          max(0.0, cr3 -. 1.0),
+      Image.fill(
+        rounded_box(
+          offset_box(box, 1.0, 1.0, -2.0, -3.0),
+          ~corners=(
+            max(0.0, cr0 -. 1.0),
+            max(0.0, cr1 -. 1.0),
+            max(0.0, cr2 -. 1.0),
+            max(0.0, cr3 -. 1.0),
+          ),
         ),
       ),
     );
@@ -455,50 +442,43 @@ module Blender = {
       Paint.color(color),
       Image.stroke_path(
         Outline.make(~cap=`BUTT, ~join=`MITER, ~width=2.0, ()),
-      ) @@
-      (
         t => {
           Path.move_to(t, x +. 4.0, y +. 5.0);
           Path.line_to(t, x +. 7.0, y +. 8.0);
           Path.line_to(t, x +. 14.0, y +. 1.0);
-        }
+        },
       ),
     );
   let draw_up_down_arrow = (~x, ~y, ~size, color) => {
     let w = 1.1 *. size;
     Image.paint(
       Paint.color(color),
-      Image.fill_path @@
-      (
-        t => {
-          Path.move_to(t, x, y -. 1.0);
-          Path.line_to(t, x +. 0.5 *. w, y -. size -. 1.0);
-          Path.line_to(t, x +. w, y -. 1.0);
-          Path.move_to(t, x, y +. 1.);
-          Path.line_to(t, x +. 0.5 *. w, y +. size +. 1.0);
-          Path.line_to(t, x +. w, y +. 1.0);
-          Path.close(t);
-        }
-      ),
+      Image.fill_path(t => {
+        Path.move_to(t, x, y -. 1.0);
+        Path.line_to(t, x +. 0.5 *. w, y -. size -. 1.0);
+        Path.line_to(t, x +. w, y -. 1.0);
+        Path.move_to(t, x, y +. 1.);
+        Path.line_to(t, x +. 0.5 *. w, y +. size +. 1.0);
+        Path.line_to(t, x +. w, y +. 1.0);
+        Path.close(t);
+      }),
     );
   };
   let draw_arrow = (~x, ~y, ~size, color) =>
     Image.paint(
       Paint.color(color),
-      Image.fill_path @@
-      (
-        t => {
-          Path.move_to(t, x, y);
-          Path.line_to(t, x -. size, y +. size);
-          Path.line_to(t, x -. size, y -. size);
-          Path.close(t);
-        }
-      ),
+      Image.fill_path(t => {
+        Path.move_to(t, x, y);
+        Path.line_to(t, x -. size, y +. size);
+        Path.line_to(t, x -. size, y -. size);
+        Path.close(t);
+      }),
     );
   let draw_node_port = (~x, ~y, state, color) => {
     let circle =
-      Path.make @@
-      (t => Path.circle(t, ~cx=x, ~cy=y, ~r=Default.node_port_radius));
+      Path.make(t =>
+        Path.circle(t, ~cx=x, ~cy=y, ~r=Default.node_port_radius)
+      );
     Image.impose(
       Image.paint(
         Paint.color(Theme.node.wire),
@@ -520,21 +500,18 @@ module Blender = {
     let length = maxf(abs_float(x1 -. x0), abs_float(y1 -. y0));
     let delta = length *. Theme.node.noodle_curving;
     let path =
-      Path.make @@
-      (
-        t => {
-          Path.move_to(t, x0, y0);
-          Path.bezier_to(
-            t,
-            ~c1x=x0 +. delta,
-            ~c1y=y0,
-            ~c2x=x1 -. delta,
-            ~c2y=y1,
-            ~x=x1,
-            ~y=y1,
-          );
-        }
-      );
+      Path.make(t => {
+        Path.move_to(t, x0, y0);
+        Path.bezier_to(
+          t,
+          ~c1x=x0 +. delta,
+          ~c1y=y0,
+          ~c2x=x1 -. delta,
+          ~c2y=y1,
+          ~x=x1,
+          ~y=y1,
+        );
+      });
     let colorw =
       Color.with_a(Theme.node.wire, minf(Color.a(c0), Color.a(c1)));
     Image.impose(
@@ -573,25 +550,22 @@ module Blender = {
   };
   let draw_drop_shadow = (box, ~r, ~feather, ~alpha) => {
     let shape =
-      Image.fill_path @@
-      (
-        t => {
-          let x1 = B2.minx(box)
-          and y1 = B2.miny(box);
-          let x2 = B2.maxx(box)
-          and y2 = B2.maxy(box);
-          Path.move_to(t, x1 -. feather, y1);
-          Path.line_to(t, x1, y1);
-          Path.line_to(t, x1, y2 -. feather);
-          Path.arc_to(t, ~x1, ~y1=y2, ~x2=x1 +. r, ~y2, ~r);
-          Path.arc_to(t, ~x1=x2, ~y1=y2, ~x2, ~y2=y2 -. r, ~r);
-          Path.line_to(t, x2, y1);
-          Path.line_to(t, x2 +. feather, y1);
-          Path.line_to(t, x2 +. feather, y2 +. feather);
-          Path.line_to(t, x1 -. feather, y2 +. feather);
-          Path.close(t);
-        }
-      );
+      Image.fill_path(t => {
+        let x1 = B2.minx(box)
+        and y1 = B2.miny(box);
+        let x2 = B2.maxx(box)
+        and y2 = B2.maxy(box);
+        Path.move_to(t, x1 -. feather, y1);
+        Path.line_to(t, x1, y1);
+        Path.line_to(t, x1, y2 -. feather);
+        Path.arc_to(t, ~x1, ~y1=y2, ~x2=x1 +. r, ~y2, ~r);
+        Path.arc_to(t, ~x1=x2, ~y1=y2, ~x2, ~y2=y2 -. r, ~r);
+        Path.line_to(t, x2, y1);
+        Path.line_to(t, x2 +. feather, y1);
+        Path.line_to(t, x2 +. feather, y2 +. feather);
+        Path.line_to(t, x1 -. feather, y2 +. feather);
+        Path.close(t);
+      });
     let x1 = B2.minx(box)
     and y1 = B2.miny(box);
     let x2 = B2.maxx(box)
@@ -634,8 +608,9 @@ module Blender = {
   };
   let draw_icon = (x, y, icon) => {
     let shape =
-      Image.fill_path @@
-      (t => Path.rect(t, ~x, ~y, ~w=float(icon.w), ~h=float(icon.h)));
+      Image.fill_path(t =>
+        Path.rect(t, ~x, ~y, ~w=float(icon.w), ~h=float(icon.h))
+      );
     let paint =
       Paint.image_pattern(
         P2.v(float(icon.x), float(icon.y)),
@@ -757,8 +732,8 @@ module Blender = {
     Image.seq([
       Image.paint(
         Paint.color(inset_dark),
-        Image.stroke_path(Outline.default) @@
-        (
+        Image.stroke_path(
+          Outline.default,
           t => {
             Path.move_to(t, x1 +. 0.0, y2 -. 13.0);
             Path.line_to(t, x1 +. 13.0, y2 +. 0.0);
@@ -772,13 +747,13 @@ module Blender = {
             Path.line_to(t, x2, y1 +. 7.0);
             Path.move_to(t, x2 -. 3.0, y1);
             Path.line_to(t, x2, y1 +. 3.0);
-          }
+          },
         ),
       ),
       Image.paint(
         Paint.color(inset_light),
-        Image.stroke_path(Outline.default) @@
-        (
+        Image.stroke_path(
+          Outline.default,
           t => {
             Path.move_to(t, x1, y2 -. 11.0);
             Path.line_to(t, x1 +. 11.0, y2);
@@ -792,13 +767,13 @@ module Blender = {
             Path.line_to(t, x2, y1 +. 9.0);
             Path.move_to(t, x2 -. 5.0, y1);
             Path.line_to(t, x2, y1 +. 5.0);
-          }
+          },
         ),
       ),
       Image.paint(
         Paint.color(inset),
-        Image.stroke_path(Outline.default) @@
-        (
+        Image.stroke_path(
+          Outline.default,
           t => {
             Path.move_to(t, x1, y2 -. 12.0);
             Path.line_to(t, x1 +. 12.0, y2);
@@ -812,7 +787,7 @@ module Blender = {
             Path.line_to(t, x2, y1 +. 8.0);
             Path.move_to(t, x2 -. 4.0, y1);
             Path.line_to(t, x2, y1 +. 4.0);
-          }
+          },
         ),
       ),
     ]);
@@ -866,20 +841,17 @@ module Blender = {
       yc -. s8,
     |];
     let path =
-      Image.fill_path @@
-      (
-        t => {
-          let vertical = if (vertical) {1} else {0};
-          Path.move_to(t, x +. points[vertical], y +. points[1 - vertical]);
-          for (i in 1 to Array.length(points) / 2 - 1) {
-            Path.line_to(
-              t,
-              x +. points[2 * i + vertical],
-              y +. points[2 * i + 1 - vertical],
-            );
-          };
-        }
-      );
+      Image.fill_path(t => {
+        let vertical = if (vertical) {1} else {0};
+        Path.move_to(t, x +. points[vertical], y +. points[1 - vertical]);
+        for (i in 1 to Array.length(points) / 2 - 1) {
+          Path.line_to(
+            t,
+            x +. points[2 * i + vertical],
+            y +. points[2 * i + 1 - vertical],
+          );
+        };
+      });
     Image.paint(Paint.color(Theme.gray(~a=0.3, 0.0)), path);
   };
   let b2 = (x, y, w, h) => B2.v(P2.v(x, y), Gg.Size2.v(w, h));
@@ -989,23 +961,19 @@ module Blender = {
   let draw_background = box =>
     Image.paint(
       Paint.color(Theme.background),
-      Image.fill_path @@
-      (
-        t => Path.rect(t, B2.minx(box), B2.miny(box), B2.w(box), B2.h(box))
+      Image.fill_path(t =>
+        Path.rect(t, B2.minx(box), B2.miny(box), B2.w(box), B2.h(box))
       ),
     );
   let draw_node_arrow_down = (~x, ~y, ~size, color) =>
     Image.paint(
       Paint.color(color),
-      Image.fill_path @@
-      (
-        t => {
-          Path.move_to(t, x, y);
-          Path.line_to(t, x +. size *. 0.5, y -. size);
-          Path.line_to(t, x -. size *. 0.5, y -. size);
-          Path.close(t);
-        }
-      ),
+      Image.fill_path(t => {
+        Path.move_to(t, x, y);
+        Path.line_to(t, x +. size *. 0.5, y -. size);
+        Path.line_to(t, x -. size *. 0.5, y -. size);
+        Path.close(t);
+      }),
     );
   let draw_menu_item = (box, state, ~icon=?, ~font, label) => {
     let (base, state) =
@@ -1355,7 +1323,7 @@ module Blender = {
         ~label="HAHA",
         (),
       ),
-      draw_label(~font, b2(160., 400., 120., 40.), "Ã\128 poil"),
+      draw_label(~font, b2(160., 400., 120., 40.), "\195\131\128 poil"),
       draw_join_area_overlay(
         b2(280., 400., 120., 40.),
         ~vertical=false,
@@ -1445,10 +1413,7 @@ let render = (vg, _t) =>
     vg,
     ~width=pw,
     ~height=ph,
-    Image.transform(
-      Transform.scale(f, f),
-      Blender.draw,
-    ),
+    Image.transform(Transform.scale(f, f), Blender.draw),
   );
 
 open Tgles2;
