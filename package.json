@@ -76,6 +76,6 @@
     "**/@opam/result": "1.2.0"
   },
   "scripts": {
-    "test": "./test.sh"
+    "test": "./travisTest.sh"
   }
 }
