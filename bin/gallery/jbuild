@@ -1,7 +1,7 @@
 (jbuild_version 1)
 
 (executable
- ((name ReasonWallDemo)
-  (public_name ReasonWallDemo.exe)
+ ((name ReasonWallGallery)
+  (public_name ReasonWallGallery.exe)
   (ocamlopt_flags (-g -thread)) 
   (libraries (grenier.binpacking stb_truetype wall tgls.tgles2 tsdl))))

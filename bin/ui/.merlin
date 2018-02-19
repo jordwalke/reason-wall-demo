@@ -1,4 +1,4 @@
-B ../_build/default/bin
+B ../../_build/default/bin/ui
 FLG -w -40
 PKG bigarray
 PKG bytes

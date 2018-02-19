@@ -1,0 +1,7 @@
+(jbuild_version 1)
+
+(executable
+ ((name ReasonWallUi)
+  (public_name ReasonWallUi.exe)
+  (ocamlopt_flags (-g -thread)) 
+  (libraries (grenier.binpacking stb_truetype wall tgls.tgles2 tsdl))))

@@ -17,7 +17,11 @@
   },
   "esy": {
     "build": [
-      [ "refmterr", "jbuilder", "build"]
+      [ "refmterr", "jbuilder", "build",
+        "bin/gallery/ReasonWallGallery.exe",
+        "bin/ui/ReasonWallUi.exe",
+        "@install"
+      ]
     ],
     "install": [
       [ "esy-installer" ]

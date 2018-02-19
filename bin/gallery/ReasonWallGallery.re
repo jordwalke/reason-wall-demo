@@ -798,7 +798,7 @@ let draw_searchbox = (text, x, y, w, h) => {
           ~halign=`CENTER,
           ~x=x +. h *. 0.55,
           ~y=y +. h *. 0.55,
-          "ð\159\148\141",
+          "\240\159\148\141",
         )
       ),
     ),
@@ -824,7 +824,7 @@ let draw_searchbox = (text, x, y, w, h) => {
           ~halign=`CENTER,
           ~x=x +. w -. h *. 0.55,
           ~y=y +. h *. 0.55,
-          "â\156\150",
+          "\226\156\150",
         )
       ),
     ),
@@ -893,7 +893,7 @@ let draw_dropdown = (text, x, y, w, h) => {
           ~halign=`CENTER,
           ~x=x +. w -. h *. 0.5,
           ~y=y +. h *. 0.5,
-          "î\157\158 ",
+          "\238\157\158 ",
         )
       ),
     ),
@@ -1043,7 +1043,7 @@ let draw_checkbox = (text, x, y, w, h) =>
           ~halign=`CENTER,
           ~x=x +. 11.,
           ~y=y +. h *. 0.5,
-          "â\156\147",
+          "\226\156\147",
         )
       ),
     ),
@@ -1051,17 +1051,17 @@ let draw_checkbox = (text, x, y, w, h) =>
 
 let cp_to_utf8 = cp => {
   let n =
-    if (cp < 128) {
+    if (cp < 0x80) {
       1;
-    } else if (cp < 2048) {
+    } else if (cp < 0x800) {
       2;
-    } else if (cp < 65536) {
+    } else if (cp < 0x10000) {
       3;
-    } else if (cp < 2097152) {
+    } else if (cp < 0x200000) {
       4;
-    } else if (cp < 67108864) {
+    } else if (cp < 0x4000000) {
       5;
-    } else if (cp <= 2147483647) {
+    } else if (cp <= 0x7fffffff) {
       6;
     } else {
       assert false;
@@ -1071,24 +1071,24 @@ let cp_to_utf8 = cp => {
   try (
     {
       if (n > 5) {
-        str.[5] = Char.chr(128 lor (cp^ land 63));
-        cp := cp^ lsr 6 lor 67108864;
+        str.[5] = Char.chr(0x80 lor (cp^ land 0x3f));
+        cp := cp^ lsr 6 lor 0x4000000;
       };
       if (n > 4) {
-        str.[4] = Char.chr(128 lor (cp^ land 63));
-        cp := cp^ lsr 6 lor 2097152;
+        str.[4] = Char.chr(0x80 lor (cp^ land 0x3f));
+        cp := cp^ lsr 6 lor 0x200000;
       };
       if (n > 3) {
-        str.[3] = Char.chr(128 lor (cp^ land 63));
-        cp := cp^ lsr 6 lor 65536;
+        str.[3] = Char.chr(0x80 lor (cp^ land 0x3f));
+        cp := cp^ lsr 6 lor 0x10000;
       };
       if (n > 2) {
-        str.[2] = Char.chr(128 lor (cp^ land 63));
-        cp := cp^ lsr 6 lor 2048;
+        str.[2] = Char.chr(0x80 lor (cp^ land 0x3f));
+        cp := cp^ lsr 6 lor 0x800;
       };
       if (n > 1) {
-        str.[1] = Char.chr(128 lor (cp^ land 63));
-        cp := cp^ lsr 6 lor 192;
+        str.[1] = Char.chr(0x80 lor (cp^ land 0x3f));
+        cp := cp^ lsr 6 lor 0xc0;
       };
       str.[0] = Char.chr(cp^);
     }
@@ -1533,7 +1533,7 @@ let draw_demo = (mx, my, w, h, t) => {
   push @@ draw_checkbox("Remember me", x, y, 140.0, 28.0);
   push @@
   draw_button(
-    /*ICON_LOGIN*/ 59200,
+    /*ICON_LOGIN*/ 0xE740,
     "Sign in",
     x +. 138.0,
     y,
@@ -1550,7 +1550,7 @@ let draw_demo = (mx, my, w, h, t) => {
   let y = y +. 55.0;
   push @@
   draw_button(
-    /*ICON_TRASH*/ 59177,
+    /*ICON_TRASH*/ 0xE729,
     "Delete",
     x,
     y,

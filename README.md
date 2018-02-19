@@ -30,10 +30,14 @@ esy install
 esy build
 ```
 
-**Now Run The App:**
+**Now Run The Apps:**
 
 ```
-./_build/default/bin/ReasonWallDemo.exe
+esy x ReasonWallDemo.exe
+```
+
+```
+esy x ReasonWallUi.exe
 ```
 
 ## Release As `npm` Package:
