@@ -13,20 +13,17 @@
     "@opam/tgls": "*",
     "@opam/tsdl": "*",
     "@esy-ocaml/reason": "^3.0.0",
-    "refmterr": "*"
+    "refmterr": "*",
+    "@opam/dune": "*"
   },
   "esy": {
     "build": [
-      [ "refmterr", "jbuilder", "build",
+      [ "refmterr", "dune", "build", "--profile", "release",
         "bin/gallery/ReasonWallGallery.exe",
         "bin/ui/ReasonWallUi.exe",
         "@install"
       ]
     ],
-    "install": [
-      [ "esy-installer" ]
-    ],
-    "buildsInSource": "_build",
     "release": {
       "releasedBinaries": [
         "ReasonWallGallery.exe",

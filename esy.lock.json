@@ -1,5 +1,5 @@
 {
-  "hash": "e0c469806a96973844ff14ea395bb6c2",
+  "hash": "ea9bdc5aa254257ac995cd0693482a5f",
   "root": "reason-wall-demo@path:.",
   "node": {
     "yarn-pkg-config@github:esy-ocaml/yarn-pkg-config#d488cd9321cd5036bd36ec96744ce78c5d45fc49": {
@@ -39,9 +39,10 @@
       "dependencies": [
         "@esy-ocaml/esy-installer@0.0.0", "@esy-ocaml/merlin@3.0.5005",
         "@esy-ocaml/reason@3.3.3", "@esy-ocaml/substs@0.0.1",
-        "@opam/grenier@opam:0.7", "@opam/ocamlfind@opam:1.8.0",
-        "@opam/stb_image@opam:0.4", "@opam/stb_truetype@opam:0.6",
-        "@opam/tgls@opam:0.8.5", "@opam/tsdl@opam:0.9.6",
+        "@opam/dune@opam:1.1.1", "@opam/grenier@opam:0.7",
+        "@opam/ocamlfind@opam:1.8.0", "@opam/stb_image@opam:0.4",
+        "@opam/stb_truetype@opam:0.6", "@opam/tgls@opam:0.8.5",
+        "@opam/tsdl@opam:0.9.6",
         "@opam/wall@github:let-def/wall#8b47b5ce898f6b35d6cbf92aa12baadd52f05350",
         "ocaml@4.6.5", "refmterr@3.1.7"
       ]
