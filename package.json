@@ -3,7 +3,7 @@
   "name": "reason-wall-demo",
   "version": "0.0.1",
   "dependencies": {
-    "@opam/wall": "let-def/wall#8b47b5ce898f6b35d6cbf92aa12baadd52f05350",
+    "@opam/wall": "0.2",
     "@esy-ocaml/esy-installer": "^0.0.0",
     "@esy-ocaml/substs": "^0.0.1",
     "@opam/grenier": "*",
