@@ -69,11 +69,8 @@
     "ocaml": "~4.6.0"
   },
   "devDependencies": {
-    "@esy-ocaml/merlin": "3.0.5000",
+    "@esy-ocaml/merlin": "3.0.5005",
     "ocaml": "~4.6.0"
-  },
-  "resolutions": {
-    "**/@opam/result": "1.2.0"
   },
   "scripts": {
     "test": "./travisTest.sh"

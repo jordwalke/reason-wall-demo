@@ -26,3 +26,6 @@ setup.log
 node_modules
 
 yarn-error.log
+*.merlin
+bin/gallery/.merlin
+bin/ui/.merlin
