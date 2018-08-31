@@ -7,7 +7,7 @@ esy install
 esy build
 esy x which ReasonWallGallery.exe
 esy x which ReasonWallUi.exe
-esy release bin
+esy release
 npm install -g ./_release
 # Now we don't need the esy x prefix
 which ReasonWallGallery.exe
