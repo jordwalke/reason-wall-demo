@@ -33,7 +33,7 @@ esy build
 **Now Run The Apps:**
 
 ```
-esy x ReasonWallDemo.exe
+esy x ReasonWallGallery.exe
 ```
 
 ```
